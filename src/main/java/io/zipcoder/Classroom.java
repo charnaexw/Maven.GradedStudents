@@ -1,7 +1,9 @@
 package io.zipcoder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Classroom {
 private Student[] students;
@@ -43,9 +45,39 @@ public Classroom(Student[] students){
 
     }
 
-
-    public Map<Student, String> getGradeBook(){
+    public Student[] getStudentsByScore() {
+        Map<Double, Student> sortedStudents = new TreeMap<>();
+        for(Student student: this.students){
+            sortedStudents.put(student.getAverageExamScore(), student);
+        }
+        Student[] result=sortedStudents.values().toArray(new Student[this.students.length]);
+        return result;
 
     }
-}
+
+    public Map<Student, String> getGradeBook(){
+        Student[] sortedStudents = getStudentsByScore();
+        int orderedStudents= sortedStudents.length;
+        Map<Student,String> result = new HashMap<>();
+        String grade = "";
+        double percentile = 0;
+
+        for(int i=0; i<percentile; i++){
+            percentile=i/orderedStudents;
+            if(percentile>.9) {
+                grade = "A";
+            }else if (percentile>.7){
+                grade="B";
+            } else if (percentile>.5){
+                grade="C";
+            } else if (percentile>.1){
+                grade="D";
+            }else{grade="F";
+            }
+            result.put(sortedStudents[i],grade);
+            }
+        return result;
+        }
+    }
+
 
